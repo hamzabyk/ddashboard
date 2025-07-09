@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.graph_objs as go
 from data_utils import load_bist30_data, get_graphs, get_bist30_index_fig
-from currency_widget import get_currency_component
+from currency_widget import get_currency_widget
 from news_widget import get_news_component
 
 external_stylesheets = [dbc.themes.CYBORG]
