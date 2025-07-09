@@ -2,75 +2,40 @@
 import pandas as pd
 import plotly.graph_objs as go
 
-
 def load_bist30_data():
     df = pd.read_csv("data/bist30.csv")
+    df["Değişim %"] = df["Değişim %"].astype(float)
     return df
-
 
 def get_graphs(symbol):
     df = pd.read_csv("data/bist30.csv")
-    df_symbol = df[df["Sembol"] == symbol]
-
-    if df_symbol.empty:
-        return {"name": symbol, "price": 0, "change": 0, "volume": 0, "rsi": 0}, go.Figure(), go.Figure()
-
-    name = df_symbol.iloc[0]["Şirket"]
-    price = df_symbol.iloc[0]["Fiyat"]
-    change = df_symbol.iloc[0]["Değişim %"]
-    volume = df_symbol.iloc[0]["Hacim"]
-    rsi = df_symbol.iloc[0]["RSI"]
-
-    # RSI grafiği
-    rsi_fig = go.Figure(data=go.Scatter(
-        x=[symbol],
-        y=[rsi],
-        mode='markers+text',
-        text=[f"RSI: {rsi}"],
-        textposition="top center"
-    ))
-    rsi_fig.update_layout(
-        template="plotly_dark",
-        title=f"{symbol} RSI"
-    )
-
-    # Hacim grafiği
-    volume_fig = go.Figure(data=go.Bar(
-        x=[symbol],
-        y=[volume],
-        marker_color='lightblue'
-    ))
-    volume_fig.update_layout(
-        template="plotly_dark",
-        title=f"{symbol} Hacim"
-    )
+    hist = df[df["Sembol"] == symbol]
 
     info = {
-        "name": name,
-        "price": price,
-        "change": change,
-        "volume": volume,
-        "rsi": rsi
+        "name": hist.iloc[0]["Şirket"],
+        "price": hist.iloc[0]["Fiyat"],
+        "change": hist.iloc[0]["Değişim %"],
+        "volume": hist.iloc[0]["Hacim"],
+        "rsi": hist.iloc[0]["RSI"]
     }
 
-    return info, rsi_fig, volume_fig
+    rsi_fig = go.Figure()
+    rsi_fig.add_trace(go.Scatter(x=[1], y=[info["rsi"]], mode='lines+markers', name='RSI'))
+    rsi_fig.update_layout(template="plotly_dark", height=300, margin=dict(l=30, r=30, t=30, b=30))
 
+    vol_fig = go.Figure()
+    vol_fig.add_trace(go.Bar(x=[symbol], y=[info["volume"]], name='Hacim'))
+    vol_fig.update_layout(template="plotly_dark", height=300, margin=dict(l=30, r=30, t=30, b=30))
+
+    return info, rsi_fig, vol_fig
 
 def get_bist30_index_fig():
     df = pd.read_csv("data/bist30.csv")
-    df_sorted = df.sort_values("Tarih")
+    # varsayalım tüm sembollerin son 30 gün ortalaması alınmış olsun
+    semboller = df["Sembol"].unique()
+    fiyatlar = [df[df["Sembol"] == s]["Fiyat"].mean() for s in semboller]
 
     fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=df_sorted["Tarih"],
-        y=df_sorted["BIST30"],
-        mode='lines',
-        line=dict(color='royalblue')
-    ))
-
-    fig.update_layout(
-        template="plotly_dark",
-        title="BIST 30 Endeks Grafiği"
-    )
-
+    fig.add_trace(go.Scatter(x=semboller, y=fiyatlar, mode='lines+markers'))
+    fig.update_layout(template="plotly_dark", height=300, margin=dict(l=30, r=30, t=30, b=30))
     return fig
