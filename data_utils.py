@@ -3,12 +3,12 @@ import pandas as pd
 import plotly.graph_objs as go
 
 def load_bist30_data():
-    df = pd.read_csv("data/bist30.csv")
+    df = pd.read_csv("data/bist30-3.csv")
     df["Değişim %"] = df["Değişim %"].astype(float)
     return df
 
 def get_graphs(symbol):
-    df = pd.read_csv("data/bist30.csv")
+    df = pd.read_csv("data/bist30-3.csv")
     hist = df[df["Sembol"] == symbol]
 
     info = {
@@ -30,7 +30,7 @@ def get_graphs(symbol):
     return info, rsi_fig, vol_fig
 
 def get_bist30_index_fig():
-    df = pd.read_csv("data/bist30.csv")
+    df = pd.read_csv("data/bist30-3.csv")
     # varsayalım tüm sembollerin son 30 gün ortalaması alınmış olsun
     semboller = df["Sembol"].unique()
     fiyatlar = [df[df["Sembol"] == s]["Fiyat"].mean() for s in semboller]
