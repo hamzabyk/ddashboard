@@ -34,7 +34,7 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             html.H5("BIST 30 Hisseleri", className="text-white mb-2"),
-            html.Div(id="stock-table")
+            html.Div(id="stock-table", style={"maxHeight": "400px", "overflowY": "scroll"})
         ], width=8),
         dbc.Col([
             html.Div(get_news_widget(), style={"marginBottom": "2rem"}),
