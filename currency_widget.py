@@ -1,33 +1,25 @@
 # currency_widget.py
 import yfinance as yf
 import plotly.graph_objs as go
-import pandas as pd
-import dash_html_components as html
+from dash import html
+
 
 def get_currency_widget():
-    symbols = {
+    currencies = {
         "USD/TRY": "USDTRY=X",
         "EUR/TRY": "EURTRY=X",
         "GBP/TRY": "GBPTRY=X",
-        "RUB/TRY": "RUBTRY=X"
+        "RUB/TRY": "RUBTRY=X",
+        "GA (Gram Altın)": "XAUUSD=X"
     }
 
-    prices = {}
-    for label, ticker in symbols.items():
+    items = []
+    for name, ticker in currencies.items():
         try:
-            data = yf.download(ticker, period="1d", interval="1h")
+            data = yf.Ticker(ticker).history(period="1d")
             price = round(data["Close"].iloc[-1], 2)
-            prices[label] = price
-        except:
-            prices[label] = "-"
+        except Exception:
+            price = "—"
+        items.append(html.Div(f"{name}: {price}", className="text-white small mb-1"))
 
-    table = html.Table([
-        html.Tr([html.Th("Kur", style={"color": "white"}), html.Th("Fiyat", style={"color": "white"})])
-    ] + [
-        html.Tr([
-            html.Td(k, style={"color": "white"}),
-            html.Td(str(v), style={"color": "white"})
-        ]) for k, v in prices.items()
-    ], style={"border": "1px solid white", "padding": "10px"})
-
-    return table
+    return html.Div(items, style={"backgroundColor": "#1a1a1a", "padding": "10px", "borderRadius": "5px"})
