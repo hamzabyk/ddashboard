@@ -3,14 +3,12 @@ import yfinance as yf
 import plotly.graph_objs as go
 from dash import html
 
-
 def get_currency_widget():
     currencies = {
         "USD/TRY": "USDTRY=X",
         "EUR/TRY": "EURTRY=X",
         "GBP/TRY": "GBPTRY=X",
-        "RUB/TRY": "RUBTRY=X",
-        "GA (Gram Altın)": "XAUUSD=X"
+        "GA (Altın)": "GC=F"  # XAUUSD çalışmıyor, yerine altın vadeli işlemler kullanıldı
     }
 
     items = []
