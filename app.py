@@ -2,7 +2,7 @@ from dash import Dash, dcc, html, Input, Output, State, ctx, ALL
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.graph_objs as go
-from data_utils import load_bist30_data, get_graphs, get_bist30_index_fig
+from data_utils import load_bist30_data, get_graphs, get_bist30_index_graph
 from currency_widget import get_currency_widget
 from news_widget import get_news_widget
 
@@ -11,7 +11,7 @@ app = Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 data = load_bist30_data()
-bist30_fig, bist30_stats = get_bist30_index_fig(data)
+bist30_fig, bist30_stats = get_bist30_index_graph(data)
 
 app.layout = dbc.Container([
     dbc.Row([
