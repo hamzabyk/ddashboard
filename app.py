@@ -45,7 +45,7 @@ app.layout = dbc.Container([
         dbc.Col([
             dbc.Row([
                 dbc.Col(get_news_component(), width=6),
-                dbc.Col(get_currency_component(), width=6),
+                dbc.Col(get_currency_widget(), width=6),
             ])
         ], width=6)
     ]),
