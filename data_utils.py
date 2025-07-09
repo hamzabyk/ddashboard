@@ -29,7 +29,7 @@ def get_graphs(symbol):
 
     return info, rsi_fig, vol_fig
 
-def get_bist30_index_fig():
+def get_bist30_index_fig(data):
     df = pd.read_csv("data/bist30-3.csv")
     # varsayalım tüm sembollerin son 30 gün ortalaması alınmış olsun
     semboller = df["Sembol"].unique()
