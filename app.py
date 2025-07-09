@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from data_utils import load_bist30_data, get_graphs, get_bist30_index_fig
 from currency_widget import get_currency_widget
-from news_widget import get_news_component
+from news_widget import get_news_widget
 
 external_stylesheets = [dbc.themes.CYBORG]
 app = Dash(__name__, external_stylesheets=external_stylesheets)
@@ -44,7 +44,7 @@ app.layout = dbc.Container([
 
         dbc.Col([
             dbc.Row([
-                dbc.Col(get_news_component(), width=6),
+                dbc.Col(get_news_widget(), width=6),
                 dbc.Col(get_currency_widget(), width=6),
             ])
         ], width=6)
