@@ -13,6 +13,15 @@ server = app.server
 data = load_bist30_data()
 bist30_fig, bist30_stats = get_bist30_index_graph(data)
 
+def get_top_gainers(df, period="today", top_n=5):
+    sorted_df = df.sort_values("Değişim %", ascending=False).head(top_n)
+    return html.Div([
+        html.H6("📈 En Çok Kazandıranlar", className="text-white mt-4"),
+        *[html.Div(f"{row['Sembol']} – %{row['Değişim %']}", className="text-success small") for _, row in sorted_df.iterrows()]
+    ])
+
+top_gainers_component = get_top_gainers(data)
+
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
@@ -57,7 +66,8 @@ app.layout = dbc.Container([
             dbc.Row([
                 dbc.Col(get_news_widget(), width=6),
                 dbc.Col(get_currency_widget(), width=6),
-            ])
+            ]),
+            top_gainers_component
         ], width=6)
     ]),
 
