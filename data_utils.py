@@ -1,4 +1,3 @@
-# data_utils.py
 import pandas as pd
 import plotly.graph_objs as go
 
@@ -7,9 +6,8 @@ def load_bist30_data():
     df["Değişim %"] = df["Değişim %"].astype(float)
     return df
 
-def get_graphs(symbol):
-    df = pd.read_csv("data/bist30-3.csv")
-    hist = df[df["Sembol"] == symbol]
+def get_graphs(symbol, data):
+    hist = data[data["Sembol"] == symbol]
 
     info = {
         "name": hist.iloc[0]["Şirket"],
@@ -29,13 +27,19 @@ def get_graphs(symbol):
 
     return info, rsi_fig, vol_fig
 
-def get_bist30_index_fig(data):
-    df = pd.read_csv("data/bist30-3.csv")
-    # varsayalım tüm sembollerin son 30 gün ortalaması alınmış olsun
-    semboller = df["Sembol"].unique()
-    fiyatlar = [df[df["Sembol"] == s]["Fiyat"].mean() for s in semboller]
+def get_bist30_index_graph(data):
+    semboller = data["Sembol"].unique()
+    fiyatlar = [data[data["Sembol"] == s]["Fiyat"].mean() for s in semboller]
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=semboller, y=fiyatlar, mode='lines+markers'))
     fig.update_layout(template="plotly_dark", height=300, margin=dict(l=30, r=30, t=30, b=30))
-    return fig
+
+    stats = {
+        "value": round(sum(fiyatlar), 2),
+        "monthly_change": "%+0.2f" % data["Değişim %"].mean(),
+        "yearly_change": "%+0.2f" % (data["Değişim %"].mean() * 12),
+        "volume": int(data["Hacim"].sum())
+    }
+
+    return fig, stats
