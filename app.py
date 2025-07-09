@@ -17,7 +17,11 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             html.H4("📊 BIST 30 Endeksi", className="text-white mb-3"),
-            dcc.Graph(figure=bist30_fig, id="bist30-endeks-grafik", style={"marginBottom": "2rem"}),
+            dcc.Graph(
+                figure=bist30_fig,
+                id="bist30-endeks-grafik",
+                style={"height": "280px", "marginBottom": "2rem"}  # YÜKSEKLİĞİ DÜZENLENDİ
+            ),
             html.Div([
                 html.P(f"Endeks Değeri: {bist30_stats['value']}", className="text-info"),
                 html.P(f"Aylık Değişim: {bist30_stats['monthly_change']}", className="text-muted"),
@@ -28,8 +32,8 @@ app.layout = dbc.Container([
 
         dbc.Col([
             dcc.Tabs([
-                dcc.Tab(label="RSI", children=[dcc.Graph(id="rsi-graph")]),
-                dcc.Tab(label="Hacim", children=[dcc.Graph(id="volume-graph")]),
+                dcc.Tab(label="RSI", children=[dcc.Graph(id="rsi-graph", style={"height": "280px"})]),
+                dcc.Tab(label="Hacim", children=[dcc.Graph(id="volume-graph", style={"height": "280px"})]),
             ]),
             html.Div(id="rsi-explanation", className="text-white small mt-2"),
             html.Div(id="volume-explanation", className="text-white small mt-2"),
