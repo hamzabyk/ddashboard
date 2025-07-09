@@ -99,7 +99,7 @@ def update_detail(n_clicks, ids):
     if not triggered:
         return "", {"display": "none"}, go.Figure(), go.Figure(), "", ""
     selected_symbol = triggered["index"]
-    info, rsi_fig, volume_fig = get_graphs(selected_symbol, data)
+    info, rsi_fig, volume_fig = get_graphs(selected_symbol)
     detail = html.Div([
         html.H4(f"📈 {selected_symbol} – {info['name']}", className="text-info"),
         html.Div(f"Kapanış: {info['price']} ₺", className="text-white"),
