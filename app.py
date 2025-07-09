@@ -43,6 +43,13 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             html.H5("📋 Hisseler", className="text-white"),
+            dcc.Input(
+                id="search-input",
+                type="text",
+                placeholder="Hisse ara...",
+                className="form-control mb-3",
+                style={"backgroundColor": "#222", "color": "white", "border": "1px solid #555"}
+            ),
             html.Div(id="stock-list", style={"overflowY": "auto", "height": "60vh"})
         ], width=6),
 
